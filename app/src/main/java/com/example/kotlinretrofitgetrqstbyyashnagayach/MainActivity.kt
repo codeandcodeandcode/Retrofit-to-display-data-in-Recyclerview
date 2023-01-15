@@ -1,9 +1,12 @@
 package com.example.kotlinretrofitgetrqstbyyashnagayach
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.util.Log.d
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,9 +16,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 class MainActivity : AppCompatActivity() {
+
+     lateinit var myAdapter: MyAdapter
+     lateinit  var linearLayoutManager: LinearLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        findViewById<RecyclerView>(R.id.recyclerview_users).setHasFixedSize(true)
+        linearLayoutManager = LinearLayoutManager(this)
+        findViewById<RecyclerView>(R.id.recyclerview_users).layoutManager =linearLayoutManager
+
         getMyData()
     }
 
@@ -34,18 +46,17 @@ class MainActivity : AppCompatActivity() {
                 response: Response<List<MyDataItem>?>
             ) {
                 val responseBody = response.body()!!
-                val myStringBuilder = StringBuilder()
-                for (myData in responseBody) {
-                    myStringBuilder.append(myData.id)
-                    myStringBuilder.append("\n")
-                }
+                myAdapter = MyAdapter(baseContext, responseBody)
+                myAdapter.notifyDataSetChanged()
+                findViewById<RecyclerView>(R.id.recyclerview_users).adapter = myAdapter
 
 
-                findViewById<TextView>(R.id.txtId).text = myStringBuilder
+
+
             }
 
             override fun onFailure(call: Call<List<MyDataItem>?>, t: Throwable) {
-                Log.d("MainActivity", "onFailure: " + t.message)
+                d("MainActivity", "onFailure: " + t.message)
             }
 
 
