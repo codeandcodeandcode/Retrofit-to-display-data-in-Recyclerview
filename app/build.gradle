@@ -23,6 +23,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -41,8 +42,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    //Dependencies for retrofit
+    //Dependencies for retrofit.Pick the latest Dependency.Retrofit square gives us the dependency then android studio gives us the latest version
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    //Gson dependency
+    //Gson dependency.Used to parse the data,And is found on the same site.
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
